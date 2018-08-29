@@ -15,7 +15,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
 
-    TextView textView, textView2;
+    TextView textView, textView2, textView3;
     Button button0, button1, button2, button3, button4, button5, button6, button7,
             button8, button9, buttonDelete, buttonConfirm;
     EditText editText;
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         buttonDelete = findViewById(R.id.buttonDelete);
         buttonConfirm = findViewById(R.id.buttonConfirm);
         textView2 = findViewById(R.id.textView2);
-
+        
 
 
         textView.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
         createAndSetEquation();
 
 
-
         textView.setText(dataToTask.setText());
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -68,23 +67,23 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 switch (view.getId()) {
                     case R.id.buttonConfirm:
+                        try {
+                            if (dataToTask.getResult() == checkingResult.setCheckingResult()) {
+                                Toast toast = Toast.makeText(MainActivity.this, "Вірно!!!", Toast.LENGTH_SHORT);
+                                toast.show();
+                                createNEWAndSetEquation();
+                                saveData.loadEquation();
+                                textView.setText(dataToTask.setText());
+                                checkingResult.setResult();
+                                textView2.setText(checkingResult.getResult());
 
-                        if (dataToTask.getResult() == checkingResult.setCheckingResult()) {
-                            Toast toast = Toast.makeText(MainActivity.this, "Вірно!!!", Toast.LENGTH_SHORT);
-                            toast.show();
-                            createNEWAndSetEquation();
-                            saveData.loadEquation();
-                            textView.setText(dataToTask.setText());
-                            checkingResult.setResult();
-                            textView2.setText(checkingResult.getResult());
-
-                        } else {
-                            Toast toast = Toast.makeText(MainActivity.this, "Ви помилилися, спробуйте ще", Toast.LENGTH_SHORT);
-                            toast.show();
-                            checkingResult.setResult();
-                            textView2.setText(checkingResult.getResult());
-                        }
-
+                            } else {
+                                Toast toast = Toast.makeText(MainActivity.this, "Ви помилилися, спробуйте ще", Toast.LENGTH_SHORT);
+                                toast.show();
+                                checkingResult.setResult();
+                                textView2.setText(checkingResult.getResult());
+                            }
+                        } catch (NumberFormatException ex) {}
 
                         break;
                     case R.id.buttonDelete:
@@ -174,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private void createAndSetEquation(){
+    private void createAndSetEquation() {
         if (dataToTask.getA() == 0) {
             dataToTask.setA(randomise.randomize());
             dataToTask.setB(randomise.randomize());
@@ -182,12 +181,13 @@ public class MainActivity extends AppCompatActivity {
             saveData.saveDataToLocalFile();
         }
     }
-    private void createNEWAndSetEquation(){
 
-            dataToTask.setA(randomise.randomize());
-            dataToTask.setB(randomise.randomize());
-            dataToTask.setC(randomise.randomize());
-            saveData.saveDataToLocalFile();
+    private void createNEWAndSetEquation() {
+
+        dataToTask.setA(randomise.randomize());
+        dataToTask.setB(randomise.randomize());
+        dataToTask.setC(randomise.randomize());
+        saveData.saveDataToLocalFile();
 
     }
 
